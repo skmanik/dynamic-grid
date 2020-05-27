@@ -1,0 +1,44 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Show One</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css" />
+  <link rel="stylesheet" href="./app.css" />
+</head>
+
+<body class="has-background-black">
+	<section class="content-wrapper">
+		<div class="content-header">
+			<h1 class="title is-4 has-text-white">Dynamic Grid Playground</h1>
+			<div class="buttons">
+				<div class="button is-primary" onclick="addItem()">Add Item</div>
+				<div class="button is-danger" onclick="removeItem()">Remove Item</div>
+			</div>
+		</div>
+		<div id="grid" class="grid-container">
+			<div class="grid-item">
+				<div class="grid-item-content">Item</div>
+			</div>
+		</div>
+	</section>
+
+	<script type="text/javascript">
+		let grid = document.getElementById("grid");
+
+		grid.addEventListener("click", addItem);
+
+		function addItem() {
+			let parent = document.getElementById("grid");
+			let newChild = `<div class="grid-item"><div class="grid-item-content">Item</div></div>`;
+			parent.innerHTML += (newChild);
+		}
+
+		function removeItem() {
+			let div = document.querySelector('#grid>div:last-child');
+  			div && div.remove();
+		}
+	</script>
+</body>
+</html>
