@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Show One</title>
+  <title>Grid Playground</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css" />
   <link rel="stylesheet" href="./app.css" />
 </head>
@@ -11,33 +11,74 @@
 <body class="has-background-black">
 	<section class="content-wrapper">
 		<div class="content-header">
-			<h1 class="title is-4 has-text-white">Dynamic Grid Playground</h1>
+			<h1 class="title is-4 has-text-white">Items: <span id="counter">0</span></h1>
 			<div class="buttons">
 				<div class="button is-primary" onclick="addItem()">Add Item</div>
 				<div class="button is-danger" onclick="removeItem()">Remove Item</div>
 			</div>
 		</div>
-		<div id="grid" class="grid-container">
-			<div class="grid-item">
-				<div class="grid-item-content">Item</div>
+		<div class="grid-wrapper">
+			<div id="grid" class="grid-layout">
 			</div>
 		</div>
 	</section>
 
 	<script type="text/javascript">
-		let grid = document.getElementById("grid");
+		let counter = 0;
+		let currentClass = `grid-type-${counter}`;
 
-		grid.addEventListener("click", addItem);
+		initializeGrid();
+
+		function drawCounter() {
+			let counterElement = document.getElementById("counter");
+			counterElement.innerHTML = counter.toString();
+		}
 
 		function addItem() {
-			let parent = document.getElementById("grid");
-			let newChild = `<div class="grid-item"><div class="grid-item-content">Item</div></div>`;
-			parent.innerHTML += (newChild);
+			let grid = document.getElementById("grid");
+			let gridItem = `<div class="grid-item"><div class="grid-item-content">Item</div></div>`;
+			grid.innerHTML += (gridItem);
+			counter += 1;
+			drawCounter();
+
+			if (counter >= 9) {
+				drawGrid(`grid-type-all`);
+			} else {
+				drawGrid(`grid-type-${counter}`);
+			}
 		}
 
 		function removeItem() {
-			let div = document.querySelector('#grid>div:last-child');
-  			div && div.remove();
+			let gridItem = document.querySelector('#grid>div:last-child');
+  			if (gridItem) {
+				gridItem.remove();
+				counter -= 1;
+				drawCounter();
+				
+				if (counter >= 9) {
+					drawGrid(`grid-type-all`);
+				} else {
+					drawGrid(`grid-type-${counter}`);
+				}
+  			}
+		}
+
+		function initializeGrid() {
+			drawGrid(currentClass);
+		}
+
+		function drawGrid(newClass) {
+			let grid = document.getElementById("grid");
+
+			if (newClass === currentClass) {
+				grid.classList.add(newClass);
+				return;
+			}
+
+			grid.classList.remove(currentClass);
+			grid.classList.add(newClass);
+
+			currentClass = newClass;
 		}
 	</script>
 </body>
